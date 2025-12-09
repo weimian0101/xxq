@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: gdms
+  datasource:
+    url: jdbc:mysql://localhost:3306/gdms?useSSL=true&requireSSL=true&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  flyway:
+    enabled: false
+
+management:
+  health:
+    redis:
+      enabled: false
+
+server:
+  port: 8080
+
+jwt:
+  secret: "bfc48a6c55c64a27a9e8d6c0f6a79bb62e5d4c39fbba4f4d8e1a6bcb2c7f6a12"
+  expiration: 86400
+
