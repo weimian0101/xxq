@@ -496,9 +496,16 @@ const viewGroupMembers = (record) => {
   loadMembers(record.id);
   // 滚动到成员列表
   setTimeout(() => {
-    const element = document.querySelector('.ant-card:has(.ant-card-head-title:contains("分组成员与成绩"))');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    const titleElements = document.querySelectorAll('.ant-card-head-title');
+    let targetElement = null;
+    for (const titleElement of titleElements) {
+      if (titleElement.textContent.includes('分组成员与成绩')) {
+        targetElement = titleElement.closest('.ant-card');
+        break;
+      }
+    }
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
     }
   }, 100);
 };
@@ -539,8 +546,15 @@ const renderGroupActions = () =>
   h(Space, {}, () => [
     canManageGroup.value ? h(Button, { type: 'primary', size: 'small', onClick: () => openAuto.value = true }, () => '自动分组') : null,
     canManageGroup.value ? h(Button, { size: 'small', onClick: () => autoCrossReview() }, () => '自动生成交叉评阅') : null,
+    canManageGroup.value ? h(Button, { size: 'small', onClick: () => handleExportDefenseData() }, () => '导出答辩数据') : null,
     h(Button, { size: 'small', onClick: fetchGroups }, () => '刷新')
   ].filter(Boolean));
+
+const handleExportDefenseData = () => {
+  window.open('/api/exports/groups', '_blank');
+  window.open('/api/exports/scores', '_blank');
+  window.open('/api/exports/reviews', '_blank');
+};
 
 const doAutoAssign = async () => {
   if (!autoForm.value.type || !autoForm.value.capacity) {

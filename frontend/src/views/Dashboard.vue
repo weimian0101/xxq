@@ -26,7 +26,7 @@
         <a-col :span="6">
           <a-card>
             <a-statistic title="未读公告" :value="studentStats.unreadAnnouncements" suffix="条" />
-            <a-button type="link" @click="$router.push('/ann')">查看公告</a-button>
+            <a-button type="link" @click="$router.push({ name: 'announcements' })">查看公告</a-button>
           </a-card>
         </a-col>
       </a-row>

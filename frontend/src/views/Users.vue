@@ -17,6 +17,7 @@
           批量设置角色
         </a-button>
         <a-button @click="openImport = true">导入用户</a-button>
+        <a-button @click="handleExportUsers">导出用户数据</a-button>
         <a-button @click="fetchUsers">刷新</a-button>
       </a-space>
     </template>
@@ -589,6 +590,10 @@ const handleImport = async () => {
   } finally {
     importing.value = false;
   }
+};
+
+const handleExportUsers = () => {
+  window.open('/api/exports/users', '_blank');
 };
 
 onMounted(() => {

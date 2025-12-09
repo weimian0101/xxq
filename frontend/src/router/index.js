@@ -20,7 +20,7 @@ const routes = [
   { path: '/dashboard', name: 'dashboard', component: Dashboard, meta: { auth: true } },
   { path: '/topics', name: 'topics', component: Topics, meta: { auth: true } },
   { path: '/stage', name: 'stage', component: Stage, meta: { auth: true } },
-  { path: '/ann', name: 'ann', component: Announcements, meta: { auth: true } },
+  { path: '/announcements', name: 'announcements', component: Announcements, meta: { auth: true } },
   { path: '/applications', name: 'applications', component: Applications, meta: { auth: true } },
   { path: '/defense', name: 'defense', component: Defense, meta: { auth: true } },
   { path: '/users', name: 'users', component: Users, meta: { auth: true } },

@@ -38,7 +38,7 @@ const menuItems = ref([
   { key: 'dashboard', name: '仪表盘' },
   { key: 'topics', name: '课题管理' },
   { key: 'stage', name: '阶段任务' },
-  { key: 'ann', name: '公告' },
+  { key: 'announcements', name: '公告' },
   { key: 'applications', name: '申请/审批' },
   { key: 'defense', name: '答辩' },
   { key: 'users', name: '用户管理' },

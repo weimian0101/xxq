@@ -2,12 +2,18 @@
   <a-card title="公告管理" :loading="loading">
     <template #extra>
       <a-space>
-        <a-button 
-          v-if="auth.role === 'ADMIN' || auth.role === 'TEACHER'" 
-          type="primary" 
+        <a-button
+          v-if="auth.role === 'ADMIN' || auth.role === 'TEACHER'"
+          type="primary"
           @click="handleCreate"
         >
           新建公告
+        </a-button>
+        <a-button
+          v-if="auth.role === 'ADMIN'"
+          @click="handleExportReads"
+        >
+          导出已读记录
         </a-button>
         <a-button @click="fetchData">刷新</a-button>
       </a-space>
@@ -446,6 +452,10 @@ const handleMarkRead = async (id) => {
     const errorMsg = e.response?.data?.message || e.response?.data?.data?.message || e.message || '标记已读失败';
     message.error(errorMsg);
   }
+};
+
+const handleExportReads = () => {
+  window.open('/api/exports/announcement-reads', '_blank');
 };
 
 onMounted(() => {

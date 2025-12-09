@@ -2,12 +2,15 @@
   <a-card title="申请管理" :loading="loading">
     <template #extra>
       <a-space>
-        <a-button 
-          v-if="auth.role === 'STUDENT'" 
-          type="primary" 
+        <a-button
+          v-if="auth.role === 'STUDENT'"
+          type="primary"
           @click="handleCreate"
         >
           提交申请
+        </a-button>
+        <a-button @click="handleExportApplications" v-if="auth.role === 'ADMIN'">
+          导出申请数据
         </a-button>
         <a-button @click="fetchData">刷新</a-button>
       </a-space>
@@ -516,6 +519,10 @@ const handleResubmit = async () => {
   } finally {
     resubmitting.value = false;
   }
+};
+
+const handleExportApplications = () => {
+  window.open('/api/exports/applications', '_blank');
 };
 
 onMounted(() => {

@@ -12,6 +12,9 @@
         <a-button type="primary" @click="handleCreate" v-if="auth.role === 'ADMIN' || auth.role === 'TEACHER'">
           新建课题
         </a-button>
+        <a-button @click="handleExportTopics" v-if="auth.role === 'ADMIN'">
+          导出课题数据
+        </a-button>
         <a-button @click="fetchTopics">刷新</a-button>
       </a-space>
     </template>
@@ -723,6 +726,10 @@ const handleCancelSelection = async (selectionId) => {
     const errorMsg = e.response?.data?.message || e.response?.data?.data?.message || e.message || '取消失败';
     message.error(errorMsg);
   }
+};
+
+const handleExportTopics = () => {
+  window.open('/api/exports/topics', '_blank');
 };
 
 const handleViewMySelection = async () => {

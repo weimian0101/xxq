@@ -1,5 +1,7 @@
 package com.example.gdms.export;
 
+import com.example.gdms.announce.AnnouncementReadRepository;
+import com.example.gdms.application.ApplicationRepository;
 import com.example.gdms.group.DefenseScoreRepository;
 import com.example.gdms.group.GroupMemberRepository;
 import com.example.gdms.group.ReviewAssignmentRepository;
@@ -7,6 +9,7 @@ import com.example.gdms.stage.StageReviewRepository;
 import com.example.gdms.topic.StudentSelectionRepository;
 import com.example.gdms.topic.TopicApprovalRepository;
 import com.example.gdms.topic.TopicRepository;
+import com.example.gdms.user.UserRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +32,11 @@ public class ExportController {
     private final DefenseScoreRepository scoreRepository;
     private final ReviewAssignmentRepository reviewAssignmentRepository;
     private final StageReviewRepository stageReviewRepository;
+    private final AnnouncementReadRepository announcementReadRepository;
+    private final ApplicationRepository applicationRepository;
+    private final UserRepository userRepository;
 
-    public ExportController(TopicRepository topicRepository, TopicApprovalRepository approvalRepository, StudentSelectionRepository selectionRepository, GroupMemberRepository memberRepository, DefenseScoreRepository scoreRepository, ReviewAssignmentRepository reviewAssignmentRepository, StageReviewRepository stageReviewRepository) {
+    public ExportController(TopicRepository topicRepository, TopicApprovalRepository approvalRepository, StudentSelectionRepository selectionRepository, GroupMemberRepository memberRepository, DefenseScoreRepository scoreRepository, ReviewAssignmentRepository reviewAssignmentRepository, StageReviewRepository stageReviewRepository, AnnouncementReadRepository announcementReadRepository, ApplicationRepository applicationRepository, UserRepository userRepository) {
         this.topicRepository = topicRepository;
         this.approvalRepository = approvalRepository;
         this.selectionRepository = selectionRepository;
@@ -38,6 +44,9 @@ public class ExportController {
         this.scoreRepository = scoreRepository;
         this.reviewAssignmentRepository = reviewAssignmentRepository;
         this.stageReviewRepository = stageReviewRepository;
+        this.announcementReadRepository = announcementReadRepository;
+        this.applicationRepository = applicationRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/topics")
@@ -98,8 +107,26 @@ public class ExportController {
 
     @GetMapping("/announcement-reads")
     public ResponseEntity<byte[]> exportAnnouncementReads() {
-        // 需要注入AnnouncementReadRepository
-        return csvResponse("announcementId,userId,readAt\n", "announcement_reads.csv");
+        String csv = "announcementId,userId,readAt\n" + announcementReadRepository.findAll().stream()
+                .map(r -> r.getAnnouncementId() + "," + r.getUserId() + "," + r.getReadAt())
+                .collect(Collectors.joining("\n"));
+        return csvResponse(csv, "announcement_reads.csv");
+    }
+
+    @GetMapping("/applications")
+    public ResponseEntity<byte[]> exportApplications() {
+        String csv = "id,type,studentId,topicId,status,payload,createdAt\n" + applicationRepository.findAll().stream()
+                .map(a -> a.getId() + "," + a.getType() + "," + a.getStudentId() + "," + (a.getTopicId() == null ? "" : a.getTopicId()) + "," + a.getStatus() + "," + safe(a.getPayload()) + "," + a.getCreatedAt())
+                .collect(Collectors.joining("\n"));
+        return csvResponse(csv, "applications.csv");
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<byte[]> exportUsers() {
+        String csv = "id,username,fullName,role,orgId,phone,createdAt\n" + userRepository.findAll().stream()
+                .map(u -> u.getId() + "," + u.getUsername() + "," + safe(u.getFullName()) + "," + u.getRole() + "," + (u.getOrgId() == null ? "" : u.getOrgId()) + "," + safe(u.getPhone()) + "," + u.getCreatedAt())
+                .collect(Collectors.joining("\n"));
+        return csvResponse(csv, "users.csv");
     }
 
     private ResponseEntity<byte[]> csvResponse(String csv, String filename) {
