@@ -78,17 +78,17 @@
             >
               编辑
             </a-button>
-            <a-button 
-              v-if="(auth.role === 'ADMIN' || (auth.role === 'TEACHER' && record.createdBy === auth.user.id)) && record.status === 'DRAFT'" 
-              size="small" 
-              type="primary" 
+            <a-button
+              v-if="(auth.role === 'ADMIN' || (auth.role === 'TEACHER' && Number(record.createdBy) === Number(auth.user.id))) && record.status === 'DRAFT'"
+              size="small"
+              type="primary"
               @click="handlePublish(record.id)"
             >
               发布
             </a-button>
-            <a-button 
-              v-if="(auth.role === 'ADMIN' || (auth.role === 'TEACHER' && record.createdBy === auth.user.id)) && record.status === 'PUBLISHED'" 
-              size="small" 
+            <a-button
+              v-if="(auth.role === 'ADMIN' || (auth.role === 'TEACHER' && Number(record.createdBy) === Number(auth.user.id))) && record.status === 'PUBLISHED'"
+              size="small"
               @click="handleViewStats(record.id)"
             >
               统计
@@ -237,7 +237,7 @@ const canEdit = (record) => {
   if (auth.role === 'ADMIN') return true;
   // 教师只能编辑自己创建的草稿
   if (auth.role === 'TEACHER') {
-    return record.status === 'DRAFT' && record.createdBy === auth.user.id;
+    return record.status === 'DRAFT' && Number(record.createdBy) === Number(auth.user.id);
   }
   return false;
 };
@@ -247,7 +247,7 @@ const canDelete = (record) => {
   if (auth.role === 'ADMIN') return true;
   // 教师只能删除自己创建的草稿
   if (auth.role === 'TEACHER') {
-    return record.status === 'DRAFT' && record.createdBy === auth.user.id;
+    return record.status === 'DRAFT' && Number(record.createdBy) === Number(auth.user.id);
   }
   return false;
 };
