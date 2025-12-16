@@ -25,6 +25,7 @@ public class DataInitializer {
     @Transactional
     public void init() {
         if (userRepository.count() == 0) {
+            // 创建默认用户（密码会自动通过DelegatingPasswordEncoder编码为{bcrypt}格式）
             userService.createUser("admin", "admin123", "ADMIN", "系统管理员");
             userService.createUser("teacher", "teacher123", "TEACHER", "示例教师");
             userService.createUser("student", "student123", "STUDENT", "示例学生");

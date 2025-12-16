@@ -257,16 +257,17 @@ INSERT INTO `orgs` (`id`, `name`, `type`, `parent_id`) VALUES
 (2, '软件工程系', 'DEPT', 1),
 (3, '计算机科学系', 'DEPT', 1);
 
--- 插入用户数据（密码为123456的BCrypt哈希）
+-- 插入用户数据（密码使用BCrypt哈希，强度12，添加{bcrypt}前缀以兼容DelegatingPasswordEncoder）
+-- 每个用户使用不同的哈希值（BCrypt特性：相同密码每次哈希都不同）
 INSERT INTO `users` (`id`, `username`, `password`, `full_name`, `role`, `org_id`, `enabled`, `phone`, `signature_url`) VALUES
-(1, 'admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iwK8pJ/2', '系统管理员', 'ADMIN', 1, TRUE, '13800138000', NULL),
-(2, 'teacher1', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iwK8pJ/2', '张老师', 'TEACHER', 2, TRUE, '13800138001', NULL),
-(3, 'teacher2', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iwK8pJ/2', '李老师', 'TEACHER', 2, TRUE, '13800138002', NULL),
-(4, 'teacher3', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iwK8pJ/2', '王老师', 'TEACHER', 3, TRUE, '13800138003', NULL),
-(5, 'student1', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iwK8pJ/2', '学生1', 'STUDENT', 2, TRUE, '13800138010', NULL),
-(6, 'student2', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iwK8pJ/2', '学生2', 'STUDENT', 2, TRUE, '13800138011', NULL),
-(7, 'student3', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iwK8pJ/2', '学生3', 'STUDENT', 3, TRUE, '13800138012', NULL),
-(8, 'student4', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iwK8pJ/2', '学生4', 'STUDENT', 3, TRUE, '13800138013', NULL);
+(1, 'admin', '{bcrypt}$2a$12$pqpxLXfOI3DSMe6TfAGR9.0fTn1tWZdR5ZhjeiuAfxqerEIx/cfcq', '系统管理员', 'ADMIN', 1, TRUE, '13800138000', NULL),
+(2, 'teacher1', '{bcrypt}$2a$12$OM7DUV2kuu1cRanBRI5JLOe8mrCkLy5X8ZwVKOsR4YBEL7b5w5hdy', '张老师', 'TEACHER', 2, TRUE, '13800138001', NULL),
+(3, 'teacher2', '{bcrypt}$2a$12$jHaVKbk64QC8VkFAO41.3OFoQivDmUPw4aT.K8tDb1LWW1mPPZpOq', '李老师', 'TEACHER', 2, TRUE, '13800138002', NULL),
+(4, 'teacher3', '{bcrypt}$2a$12$Aqwp8EXD56quYQa1NXfZTeOo.2Dg0EtGRzKqaSaxeAaW1dROylcmG', '王老师', 'TEACHER', 3, TRUE, '13800138003', NULL),
+(5, 'student1', '{bcrypt}$2a$12$FfvMF4Ojy8s4pYJSG60CvOT7EjqCklRtoaG77zJdAMzR/4aIDKL9e', '学生1', 'STUDENT', 2, TRUE, '13800138010', NULL),
+(6, 'student2', '{bcrypt}$2a$12$AHOxj6wxJcc4YHDEgJnmveLwG5daYrX8LHYjo64SzyM4r/M5vUkyS', '学生2', 'STUDENT', 2, TRUE, '13800138011', NULL),
+(7, 'student3', '{bcrypt}$2a$12$3kRhXJ5G/RUbN03lnJlLaexTFJi2tysRz/iFC24RjFZJw5UONop0.', '学生3', 'STUDENT', 3, TRUE, '13800138012', NULL),
+(8, 'student4', '{bcrypt}$2a$12$cvgHWT0DUybw6harPHj1hON61GOWGPM3xEuY5/AiDCJwlrjJAZfvm', '学生4', 'STUDENT', 3, TRUE, '13800138013', NULL);
 
 -- 插入菜单数据
 INSERT INTO `menus` (`id`, `name`, `path`, `role`, `order_index`) VALUES

@@ -36,7 +36,7 @@ public class AnnouncementController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String status   ,
             @RequestParam(required = false) Long createdBy,
             Principal principal) {
         // 安全修复：非管理员和教师只能查看已发布的公告，且不能使用createdBy参数

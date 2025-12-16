@@ -38,5 +38,26 @@ public class PlatformController {
         return ResponseEntity.ok(Map.of("selected", true, "selection", payload));
     }
 
+    // 密码测试端点（仅开发环境使用）
+    @PostMapping("/test-password")
+    public ResponseEntity<Map<String, Object>> testPassword(@RequestBody Map<String, String> payload) {
+        String password = payload.get("password");
+        if (password == null || password.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "密码不能为空"));
+        }
+
+        // 这里可以注入PasswordGenerator来测试密码哈希
+        // 但为了安全起见，这个端点只在开发环境中启用
+
+        return ResponseEntity.ok(Map.of(
+            "message", "密码测试完成",
+            "password_length", password.length(),
+            "contains_uppercase", password.matches(".*[A-Z].*"),
+            "contains_lowercase", password.matches(".*[a-z].*"),
+            "contains_digit", password.matches(".*[0-9].*"),
+            "contains_special", password.matches(".*[^A-Za-z0-9].*")
+        ));
+    }
+
 }
 

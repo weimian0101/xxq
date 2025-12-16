@@ -33,8 +33,8 @@ public class UserService implements UserDetailsService {
     public User createUser(String username, String rawPassword, String role, String fullName, String phone, String signatureUrl, Long orgId, Boolean enabled) {
         User u = new User();
         u.setUsername(username);
-        // 直接存储明文密码
-        u.setPassword(rawPassword);
+        // 使用密码编码器加密密码
+        u.setPassword(passwordEncoder.encode(rawPassword));
         u.setRole(role);
         u.setFullName(fullName);
         u.setPhone(phone);
@@ -63,8 +63,8 @@ public class UserService implements UserDetailsService {
 
     public User resetPassword(Long id, String rawPassword) {
         User u = userRepository.findById(id).orElseThrow();
-        // 直接存储明文密码
-        u.setPassword(rawPassword);
+        // 使用密码编码器加密密码
+        u.setPassword(passwordEncoder.encode(rawPassword));
         return userRepository.save(u);
     }
 

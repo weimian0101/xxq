@@ -31,3 +31,15 @@ jwt:
   secret: "bfc48a6c55c64a27a9e8d6c0f6a79bb62e5d4c39fbba4f4d8e1a6bcb2c7f6a12"
   expiration: 86400
 
+# 加密配置
+encryption:
+  password:
+    strength: 12  # BCrypt强度，默认为10，12提供更好的安全性
+    salt-length: 16  # 盐长度
+  enabled: true  # 是否启用密码加密
+
+# 应用配置
+app:
+  emergency-reset:
+    enabled: false  # 紧急密码重置功能，默认关闭
+
